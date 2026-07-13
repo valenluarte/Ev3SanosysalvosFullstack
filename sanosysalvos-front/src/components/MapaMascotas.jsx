@@ -1,7 +1,7 @@
 import React from "react";
-import { MapContainer, TileLayer, Marker, Popup, Polyline } from "react-leaflet";
+import { useNavigate } from "react-router-dom";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-
 import L from "leaflet";
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
@@ -34,64 +34,67 @@ const createMarkerIcon = (estado) => {
 };
 
 function MapaMascotas({ reportes = [], matches = [] }) {
-
+  const navigate = useNavigate();
   const getCoords = (r) => [Number(r.latitud), Number(r.longitud)];
 
-  const reportesMap = new Map(reportes.map(r => [r.id, r]));
-
-  const getColor = (score) => {
-    if (!score) return "gray";
-    if (score >= 80) return "green";
-    if (score >= 50) return "orange";
-    return "red";
-  };
-
   return (
-    <div style={{ height: "100%", width: "100%" }}>  {/* ← CAMBIADO A 100% */}
-      <MapContainer 
-        center={[-33.45, -70.66]} 
-        zoom={13} 
-        style={{ height: "100%", width: "100%" }}
-      >
+    <div style={{ height: "100%", width: "100%" }}>
+      <MapContainer center={[-33.45, -70.66]} zoom={13} style={{ height: "100%", width: "100%" }}>
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
         {reportes.map((r) => (
-          <Marker key={r.id} position={getCoords(r)} icon={createMarkerIcon(r.estado)}>
-            <Popup>
-              <div style={{ minWidth: "200px" }}>
-                <strong>🐾 {r.tipoMascota || "No especificado"}</strong>
+          <Marker
+            key={r.id}
+            position={getCoords(r)}
+            icon={createMarkerIcon(r.estado)}
+          >
+            <Popup closeButton={true} autoPan={false}>
+              <div style={{ minWidth: "200px", padding: "4px" }}>
+                {/* ✅ Foto de la mascota (si existe) */}
+                {r.urlFoto && (
+                  <img
+                    src={r.urlFoto}
+                    alt={r.nombreMascota || "Mascota"}
+                    style={{
+                      width: "100%",
+                      height: "120px",
+                      objectFit: "cover",
+                      borderRadius: "6px",
+                      marginBottom: "8px"
+                    }}
+                  />
+                )}
+                <div style={{ fontSize: "15px", fontWeight: "bold" }}>
+                  🐾 {r.tipoMascota || "No especificado"}
+                </div>
                 <hr style={{ margin: "4px 0" }} />
                 <div><strong>Nombre:</strong> {r.nombreMascota || "Sin nombre"}</div>
                 <div><strong>Raza:</strong> {r.raza || "No especificada"}</div>
                 <div><strong>Color:</strong> {r.color || "No especificado"}</div>
                 <div><strong>Sexo:</strong> {r.sexo || "No especificado"}</div>
                 <div><strong>Estado:</strong> {r.estado || "No especificado"}</div>
-                {r.descripcion && (
-                  <div><strong>Descripción:</strong> {r.descripcion}</div>
-                )}
-                {r.direccionReferencia && (
-                  <div><strong>Ubicación:</strong> {r.direccionReferencia}</div>
-                )}
-                {r.nombreContacto && (
-                  <div><strong>Contacto:</strong> {r.nombreContacto}</div>
-                )}
+                <div style={{ marginTop: "10px" }}>
+                  <button
+                    onClick={() => navigate(`/reporte/${r.id}`)}
+                    style={{
+                      width: "100%",
+                      padding: "8px",
+                      backgroundColor: "#2c3e50",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontWeight: "bold",
+                      fontSize: "14px"
+                    }}
+                  >
+                    📖 Ver detalle
+                  </button>
+                </div>
               </div>
             </Popup>
           </Marker>
         ))}
-
-        {matches.map((m, i) => {
-          const a = reportesMap.get(m.perdidaId);
-          const b = reportesMap.get(m.encontradaId);
-          if (!a || !b) return null;
-          return (
-            <Polyline
-              key={i}
-              positions={[getCoords(a), getCoords(b)]}
-              color={getColor(m.score)}
-            />
-          );
-        })}
       </MapContainer>
     </div>
   );

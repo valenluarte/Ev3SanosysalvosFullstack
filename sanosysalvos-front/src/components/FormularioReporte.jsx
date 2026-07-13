@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 
-// Opciones predefinidas
 const COLORES = [
   "Negro", "Blanco", "Gris", "Marrón", "Dorado", "Amarillo",
   "Naranja", "Rojo", "Azul", "Verde", "Atigrado", "Manchado",
@@ -43,6 +42,8 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
     estadoSalud: "Bueno"
   });
 
+  const [fotoArchivo, setFotoArchivo] = useState(null);
+  const [fotoPreview, setFotoPreview] = useState(null);
   const [cargando, setCargando] = useState(false);
   const [error, setError] = useState(null);
   const [mostrarRaza, setMostrarRaza] = useState(false);
@@ -78,6 +79,18 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
     });
   };
 
+  const handleFotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFotoArchivo(file);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFotoPreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setCargando(true);
@@ -99,7 +112,20 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
     };
 
     try {
-      await axios.post("http://localhost:8083/api/v1/reports", dataToSend);
+      // Si hay foto, subirla primero
+      let urlFoto = "";
+      if (fotoArchivo) {
+        const formDataFile = new FormData();
+        formDataFile.append("file", fotoArchivo);
+        const uploadRes = await axios.post("http://localhost:8083/api/v1/upload", formDataFile, {
+          headers: { "Content-Type": "multipart/form-data" }
+        });
+        urlFoto = uploadRes.data.url;
+      }
+
+      // Crear el reporte con la URL de la foto
+      const reporteData = { ...dataToSend, urlFoto };
+      await axios.post("http://localhost:8083/api/v1/reports", reporteData);
       if (onReporteCreado) onReporteCreado();
     } catch (err) {
       console.error("Error al crear reporte:", err);
@@ -118,7 +144,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
       borderRadius: "12px",
       boxShadow: "0 2px 10px rgba(0,0,0,0.1)"
     }}>
-      {/* TÍTULO DINÁMICO */}
       <h3 style={{ marginTop: 0, fontSize: "20px", color: "#2c3e50" }}>
         {esEncontrada ? "📢 Reportar mascota encontrada" : "📝 Reportar mascota perdida"}
       </h3>
@@ -129,7 +154,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         </div>
       )}
 
-      {/* Tipo de mascota */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Tipo de mascota *</label>
         <select
@@ -144,7 +168,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         </select>
       </div>
 
-      {/* Raza (solo para Perro) */}
       {mostrarRaza && (
         <div style={{ marginBottom: "12px" }}>
           <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Raza</label>
@@ -160,7 +183,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         </div>
       )}
 
-      {/* Colores */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Color(es) *</label>
         <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
@@ -185,7 +207,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         <small style={{ color: "#6c757d" }}>Selecciona uno o más colores</small>
       </div>
 
-      {/* Sexo */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Sexo</label>
         <select
@@ -200,7 +221,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         </select>
       </div>
 
-      {/* Tamaño */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Tamaño</label>
         <select
@@ -216,7 +236,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         </select>
       </div>
 
-      {/* Edad */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Edad</label>
         <select
@@ -233,7 +252,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         </select>
       </div>
 
-      {/* Nombre de la mascota */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Nombre de la mascota *</label>
         {!sinIdentificacion ? (
@@ -271,7 +289,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         </label>
       </div>
 
-      {/* Campos específicos para "Encontrada" */}
       {esEncontrada && (
         <>
           <div style={{ marginBottom: "12px" }}>
@@ -333,7 +350,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         </>
       )}
 
-      {/* Coordenadas */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Latitud *</label>
         <input
@@ -363,7 +379,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         <small style={{ color: "#6c757d" }}>Valores negativos para Chile</small>
       </div>
 
-      {/* Dirección de referencia */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Dirección de referencia</label>
         <input
@@ -376,7 +391,6 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         />
       </div>
 
-      {/* Contacto */}
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Nombre de contacto</label>
         <input
@@ -401,7 +415,18 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         />
       </div>
 
-      {/* Descripción */}
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Email de contacto</label>
+        <input
+          type="email"
+          name="emailContacto"
+          value={formData.emailContacto}
+          onChange={handleChange}
+          placeholder="Ej: juan@email.com"
+          style={{ width: "100%", padding: "10px", fontSize: "16px", borderRadius: "6px", border: "1px solid #ced4da" }}
+        />
+      </div>
+
       <div style={{ marginBottom: "12px" }}>
         <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>Descripción</label>
         <textarea
@@ -414,7 +439,39 @@ function FormularioReporte({ onReporteCreado, onCancelar, tipo = "PERDIDA" }) {
         />
       </div>
 
-      {/* BOTONES CON COLOR DINÁMICO */}
+      <div style={{ marginBottom: "12px" }}>
+        <label style={{ display: "block", fontWeight: "bold", marginBottom: "4px" }}>📷 Foto de la mascota</label>
+        <input
+          type="file"
+          accept="image/*"
+          onChange={handleFotoChange}
+          style={{
+            width: "100%",
+            padding: "8px",
+            fontSize: "14px",
+            borderRadius: "6px",
+            border: "1px solid #ced4da"
+          }}
+        />
+        {fotoPreview && (
+          <div style={{ marginTop: "8px" }}>
+            <img
+              src={fotoPreview}
+              alt="Vista previa"
+              style={{
+                maxWidth: "100%",
+                maxHeight: "150px",
+                borderRadius: "6px",
+                border: "1px solid #dee2e6"
+              }}
+            />
+          </div>
+        )}
+        <small style={{ color: "#6c757d", fontSize: "12px" }}>
+          Selecciona una imagen JPG o PNG desde tu computadora
+        </small>
+      </div>
+
       <div style={{ display: "flex", gap: "10px", marginTop: "16px" }}>
         <button
           type="submit"

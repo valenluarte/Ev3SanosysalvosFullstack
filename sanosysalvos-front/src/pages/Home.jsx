@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import MapaMascotas from '../components/MapaMascotas';
 import FiltrosBusqueda from '../components/FiltrosBusqueda';
+import PanelMatches from '../components/PanelMatches';
 
 function Home() {
   const [reportes, setReportes] = useState([]);
@@ -11,11 +12,9 @@ function Home() {
   const cargarReportes = async () => {
     try {
       const res = await axios.get('http://localhost:8084/api/v1/mapa/reportes');
-      console.log('Reportes cargados:', res.data);
       setReportes(res.data || []);
       setReportesFiltrados(res.data || []);
     } catch (e) {
-      console.error('Error:', e);
       setReportes([]);
       setReportesFiltrados([]);
     }
@@ -31,22 +30,18 @@ function Home() {
   };
 
   const aplicarFiltros = (filtros) => {
-  console.log('Aplicando filtros:', filtros);
-  let filtrados = [...reportes];
-
-  if (filtros.tipo) {
-    filtrados = filtrados.filter(r => r.tipoMascota === filtros.tipo);
-  }
-  if (filtros.estado) {
-    filtrados = filtrados.filter(r => r.estado === filtros.estado);
-  }
-  if (filtros.sexo) {
-    filtrados = filtrados.filter(r => r.sexo === filtros.sexo);
-  }
-
-  console.log('Filtrados:', filtrados);
-  setReportesFiltrados(filtrados);
-};
+    let filtrados = [...reportes];
+    if (filtros.tipo) {
+      filtrados = filtrados.filter(r => r.tipoMascota === filtros.tipo);
+    }
+    if (filtros.estado) {
+      filtrados = filtrados.filter(r => r.estado === filtros.estado);
+    }
+    if (filtros.sexo) {
+      filtrados = filtrados.filter(r => r.sexo === filtros.sexo);
+    }
+    setReportesFiltrados(filtrados);
+  };
 
   useEffect(() => {
     cargarReportes();
@@ -56,28 +51,29 @@ function Home() {
   return (
     <div style={{ display: 'flex', height: '100%', width: '100%' }}>
       <div style={{
-        width: '340px',
-        minWidth: '340px',
+        width: '300px',
+        minWidth: '300px',
         backgroundColor: '#ffffff',
-        padding: '24px',
+        padding: '20px',
         overflowY: 'auto',
         borderRight: '2px solid #e9ecef',
         height: '100%'
       }}>
-        <h2 style={{ marginTop: 0, fontSize: '22px', color: '#2c3e50' }}>
-          🐾 Sanos y Salvos
-        </h2>
+        <h2 style={{ marginTop: 0, fontSize: '20px' }}>🐾 Sanos y Salvos</h2>
         <FiltrosBusqueda onFiltrar={aplicarFiltros} />
-        <hr style={{ margin: '16px 0' }} />
+        <hr />
         <div>
-          <h3 style={{ fontSize: '18px' }}>📊 Resumen</h3>
-          <p style={{ fontSize: '16px' }}>🐾 Perdidas: {reportes.filter(r => r.estado === 'PERDIDA').length}</p>
-          <p style={{ fontSize: '16px' }}>🟡 Encontradas: {reportes.filter(r => r.estado === 'ENCONTRADA').length}</p>
+          <h4>📊 Resumen</h4>
+          <p>🐾 Perdidas: {reportes.filter(r => r.estado === 'PERDIDA').length}</p>
+          <p>🟡 Encontradas: {reportes.filter(r => r.estado === 'ENCONTRADA').length}</p>
         </div>
       </div>
+
       <div style={{ flex: 1, height: '100%' }}>
         <MapaMascotas reportes={reportesFiltrados} matches={matches} />
       </div>
+
+      <PanelMatches />
     </div>
   );
 }
