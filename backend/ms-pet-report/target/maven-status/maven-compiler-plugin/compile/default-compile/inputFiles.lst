@@ -1,0 +1,15 @@
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\controller\ReporteController.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\exception\BadRequestException.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\mapper\ReporteMapper.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\service\ReporteService.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\exception\ResourceNotFoundException.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\exception\GlobalExceptionHandler.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\exception\ApiErrorResponse.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\dto\ReporteRequest.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\repository\ReporteMascotaRepository.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\PetReportApplication.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\config\CorsConfig.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\dto\ReporteResponse.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\serviceImpl\ReporteServiceImpl.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\entity\EstadoReporte.java
+C:\Users\patri\OneDrive\Escritorio\Entrega_Parcial3\backend\ms-pet-report\src\main\java\com\sanossalvos\petreport\entity\ReporteMascota.java

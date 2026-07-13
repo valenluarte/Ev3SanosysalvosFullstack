@@ -1,0 +1,16 @@
+com\sanossalvos\petreport\dto\ReporteRequest.class
+com\sanossalvos\petreport\exception\BadRequestException.class
+com\sanossalvos\petreport\mapper\ReporteMapper.class
+com\sanossalvos\petreport\config\CorsConfig.class
+com\sanossalvos\petreport\repository\ReporteMascotaRepository.class
+com\sanossalvos\petreport\serviceImpl\ReporteServiceImpl.class
+com\sanossalvos\petreport\entity\EstadoReporte.class
+com\sanossalvos\petreport\exception\ResourceNotFoundException.class
+com\sanossalvos\petreport\PetReportApplication.class
+com\sanossalvos\petreport\exception\ApiErrorResponse.class
+com\sanossalvos\petreport\controller\ReporteController.class
+com\sanossalvos\petreport\dto\ReporteResponse.class
+com\sanossalvos\petreport\config\CorsConfig$1.class
+com\sanossalvos\petreport\entity\ReporteMascota.class
+com\sanossalvos\petreport\exception\GlobalExceptionHandler.class
+com\sanossalvos\petreport\service\ReporteService.class

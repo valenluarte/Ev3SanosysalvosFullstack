@@ -1,0 +1,10 @@
+com\sanossalvos\matching\client\ReporteClient.class
+com\sanossalvos\matching\controller\MatchingController.class
+com\sanossalvos\matching\MatchingApplication.class
+com\sanossalvos\matching\engine\MatchingEngine.class
+com\sanossalvos\matching\dto\MatchRequestDTO.class
+com\sanossalvos\matching\dto\MatchResultDTO.class
+com\sanossalvos\matching\service\MatchingService.class
+com\sanossalvos\matching\dto\ReporteDTO.class
+com\sanossalvos\matching\config\WebClientConfig.class
+com\sanossalvos\matching\util\DistanceCalculator.class
