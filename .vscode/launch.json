@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-PetReportApplication<ms-pet-report>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.sanossalvos.petreport.PetReportApplication",
+            "projectName": "ms-pet-report",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

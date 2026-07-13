@@ -1,0 +1,106 @@
+{
+  "info": {
+    "_postman_id": "37af000a-deb0-40c0-8ee1-7d26621c2eeb",
+    "name": "SanosySalvos-API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "56572690",
+    "_collection_link": "https://go.postman.co/collection/56572690-37af000a-deb0-40c0-8ee1-7d26621c2eeb?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Pet Service",
+      "item": [
+        {
+          "name": "obtener-reportes",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "POST crear reporte",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Actualizar-reporte",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Eliminar-reporte",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener-reportes-id",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener solo PERDIDAS (GET)",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener solo ENCONTRADAS (GET)",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Matching Service",
+      "item": [
+        {
+          "name": "Calcular coincidencias",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "BFF",
+      "item": [
+        {
+          "name": "Obtener reportes mapa",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener coincidencias",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

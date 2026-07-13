@@ -21,11 +21,8 @@ public class MatchingService {
     }
 
     public List<MatchResultDTO> findMatches(MatchRequestDTO request) {
-        // Obtener reportes del tipo opuesto
-        String tipoBuscado = request.getReporteEncontrado().getEstado().equals("PERDIDA") ? "ENCONTRADA" : "PERDIDA";
+        String tipoBuscado = "PERDIDA".equals(request.getReporteEncontrado().getEstado()) ? "ENCONTRADA" : "PERDIDA";
         List<ReporteDTO> candidatos = client.getReportesByEstado(tipoBuscado);
-        
-        // Calcular matches
         return engine.calculateMatches(request.getReporteEncontrado(), candidatos);
     }
 }
